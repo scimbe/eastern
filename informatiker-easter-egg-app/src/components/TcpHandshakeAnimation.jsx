@@ -4,9 +4,8 @@ import '../styles/TcpHandshakeAnimation.css';
 const TcpHandshakeAnimation = () => {
     const [step, setStep] = useState(0);
     const [handshakeComplete, setHandshakeComplete] = useState(false);
-    const animationRef = useRef(null);
     
-    // Stabile Animation durch useRef und exakte Zeitabstände
+    // Stabile Animation durch exakte Zeitabstände
     useEffect(() => {
         if (step < 3) {
             const timer = setTimeout(() => {
@@ -19,9 +18,10 @@ const TcpHandshakeAnimation = () => {
     }, [step]);
 
     return (
-        <div className="tcp-handshake-animation" ref={animationRef}>
+        <div className="tcp-handshake-animation">
             <h2>TCP 3-Way Handshake</h2>
             <div className="handshake-container">
+                {/* Client Seite - statisch positioniert */}
                 <div className="figure client">
                     <div className="figure-head">Client</div>
                     <div className="figure-body">
@@ -35,6 +35,7 @@ const TcpHandshakeAnimation = () => {
                     </div>
                 </div>
 
+                {/* Nachrichtenbereich mit animierten Nachrichten */}
                 <div className="message-container">
                     {step >= 0 && (
                         <div className={`message syn ${step === 0 ? 'sending-right' : (step > 0 ? 'received-right' : '')}`}>
@@ -53,6 +54,7 @@ const TcpHandshakeAnimation = () => {
                     )}
                 </div>
 
+                {/* Server Seite - statisch positioniert */}
                 <div className="figure server">
                     <div className="figure-head">Osterhasen-Server</div>
                     <div className="figure-body">
@@ -67,6 +69,7 @@ const TcpHandshakeAnimation = () => {
                 </div>
             </div>
 
+            {/* Statusanzeige mit fester Höhe */}
             <div className="handshake-status">
                 {step === 0 && <p>Client sendet SYN zum Osterhasen...</p>}
                 {step === 1 && <p>Osterhasen-Server antwortet mit SYN-ACK...</p>}
