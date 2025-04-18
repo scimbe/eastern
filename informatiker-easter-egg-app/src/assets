@@ -1,0 +1,9 @@
+The `/src/assets` directory is intended to hold media files such as images or animations. Since you haven't specified any particular assets to include, I will create a placeholder file structure for potential assets related to the TCP 3-Way Handshake animation and the logbook. 
+
+Here are the contents for the `/src/assets` directory:
+
+/src/assets
+- tcp_handshake_animation.gif
+- logbook_animation.gif
+
+These files are placeholders and should be replaced with actual media files as needed for your project.
