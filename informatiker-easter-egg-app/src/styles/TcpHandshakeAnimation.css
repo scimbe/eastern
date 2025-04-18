@@ -7,7 +7,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   max-width: 800px;
   margin: 0 auto;
-  overflow: hidden; /* Verhindert Layoutverschiebungen */
+  overflow: hidden;
+  position: relative;
 }
 
 .tcp-handshake-animation h2 {
@@ -17,40 +18,47 @@
   font-weight: bold;
 }
 
+/* Feste Breite und Höhe für den Container */
 .handshake-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 220px;
   position: relative;
   margin-bottom: 20px;
-  /* Feste Höhe für Stabilität */
-  height: 220px;
+  height: 220px; 
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Maximaler Abstand zwischen Client und Server */
+  align-items: center;
 }
 
-/* Statische Positionierung für Client und Server */
+/* Statische Figuren mit fester Breite */
 .figure {
+  width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 150px;
   position: relative;
-  flex-shrink: 0; /* Verhindert Größenänderungen */
-  z-index: 5; /* Über Nachrichten */
+  z-index: 10; /* Höherer z-index um über allen Elementen zu bleiben */
+  flex-shrink: 0; /* Verhindert das Zusammendrücken der Figuren */
 }
 
+/* Kopfzeile der Figuren mit angepasster Breite */
 .figure-head {
   font-weight: bold;
   margin-bottom: 10px;
-  background-color: #3498db;
-  color: white;
   padding: 5px 10px;
   border-radius: 5px;
   white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+.client .figure-head {
+  background-color: #3498db;
+  color: white;
 }
 
 .server .figure-head {
   background-color: #e74c3c;
+  color: white;
 }
 
 .figure-body {
@@ -59,7 +67,6 @@
   flex-direction: column;
   align-items: center;
   height: 120px;
-  width: 100%;
 }
 
 .figure-torso {
@@ -78,43 +85,29 @@
   50% { transform: translateY(-5px); }
 }
 
-/* Feste Container für Arm und Hand */
+/* Arme mit fester Position relativ zu den Figuren */
 .figure-arm-container {
   position: absolute;
-  top: 40px;
-  width: 100%;
-  height: 20px;
+  top: 45px;
+  height: 10px;
 }
 
 .client .figure-arm-container {
-  right: -50%; /* Stabilere Positionierung */
+  right: -40px;
+  width: 80px;
 }
 
 .server .figure-arm-container {
-  left: -50%; /* Stabilere Positionierung */
-}
-
-.figure-hand-container {
-  position: absolute;
-  top: 30px;
-  height: 30px;
-  width: 30px;
-}
-
-.client .figure-hand-container {
-  right: -70px; /* Feste Position */
-}
-
-.server .figure-hand-container {
-  left: -70px; /* Feste Position */
+  left: -40px;
+  width: 80px;
 }
 
 .figure-arm {
   height: 8px;
   background-color: #95a5a6;
   position: absolute;
-  transition: all 0.4s ease-in-out;
-  z-index: 1;
+  transition: width 0.4s ease, background-color 0.4s ease;
+  top: 0;
 }
 
 .client .figure-arm {
@@ -127,27 +120,36 @@
   transform-origin: left center;
 }
 
-.client .arm-extended {
+.arm-extended {
   width: 80px;
+  background-color: #34495e;
 }
 
-.client .arm-retracted {
+.arm-retracted {
   width: 30px;
 }
 
-.server .arm-extended {
-  width: 80px;
+/* Hände mit fester Position relativ zu den Figuren */
+.figure-hand-container {
+  position: absolute;
+  top: 35px;
+  height: 30px;
+  width: 30px;
+  z-index: 3;
 }
 
-.server .arm-retracted {
-  width: 30px;
+.client .figure-hand-container {
+  right: -110px;
+}
+
+.server .figure-hand-container {
+  left: -110px;
 }
 
 .figure-hand {
   font-size: 1.5rem;
+  transition: opacity 0.3s ease;
   position: absolute;
-  transition: opacity 0.4s ease-in-out;
-  z-index: 2;
 }
 
 .hand-visible {
@@ -158,18 +160,14 @@
   opacity: 0;
 }
 
-/* Nachrichtenbereich mit animierten Nachrichten */
+/* Nachrichten mit absoluten Positionen im Container */
 .message-container {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1; /* Unter den Figuren */
+  z-index: 1;
 }
 
 .message {
@@ -177,38 +175,52 @@
   border: 2px solid #dfe6e9;
   border-radius: 15px;
   padding: 8px 12px;
-  margin: 5px 0;
   font-family: monospace;
   font-weight: bold;
   font-size: 0.9rem;
-  position: absolute;
-  min-width: 70px;
   text-align: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 80px;
   z-index: 2;
-  opacity: 0;
-  transition: transform 1.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-/* Animations-Klassen für Nachrichten */
+/* Animation-Klassen angepasst für den größeren Abstand */
+@keyframes sendMessageRight {
+  0% { left: 25%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 75%; opacity: 0; }
+}
+
+@keyframes sendMessageLeft {
+  0% { left: 75%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: 25%; opacity: 0; }
+}
+
+/* Positionierung der Nachrichten für die Animation */
 .message.sending-right {
   animation: sendMessageRight 1.5s forwards;
+}
+
+.message.received-right {
+  left: 75%;
+  opacity: 0.7;
 }
 
 .message.sending-left {
   animation: sendMessageLeft 1.5s forwards;
 }
 
-.message.received-right {
-  opacity: 0.7;
-  transform: translateX(150px);
-}
-
 .message.received-left {
+  left: 25%;
   opacity: 0.7;
-  transform: translateX(-150px);
 }
 
-/* Nachrichtentypen */
+/* Nachrichtentyp-Designs */
 .message.syn {
   background-color: #e3f2fd;
   border-color: #2196f3;
@@ -227,44 +239,15 @@
   color: #1b5e20;
 }
 
-/* Animationen für bewegte Nachrichten */
-@keyframes sendMessageRight {
-  0% {
-    transform: translateX(-150px);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(150px);
-    opacity: 0.7;
-  }
-}
-
-@keyframes sendMessageLeft {
-  0% {
-    transform: translateX(150px);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-150px);
-    opacity: 0.7;
-  }
-}
-
+/* Restliches CSS */
 .handshake-status {
   text-align: center;
   min-height: 100px;
-  /* Feste Höhe für Stabilität */
-  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 }
 
 .handshake-status p {
@@ -276,6 +259,13 @@
 .celebration {
   animation: celebrate 0.5s ease-in-out;
   width: 100%;
+}
+
+/* Neue Klasse für die Überschrift */
+.title-celebration {
+  margin-bottom: 15px;
+  animation: none; /* Keine Animation für die Überschrift */
+  text-align: center;
 }
 
 .celebration p {
@@ -306,4 +296,31 @@
     transform: scale(1);
     opacity: 1;
   }
+}
+
+/* Footer Styling */
+.tcp-handshake-footer {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.tcp-handshake-footer a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.tcp-handshake-footer a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.footer-divider {
+  margin: 0 10px;
+  color: #bdc3c7;
 }

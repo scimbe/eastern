@@ -19,6 +19,9 @@ const TcpHandshakeAnimation = () => {
 
     return (
         <div className="tcp-handshake-animation">
+            <div className="celebration title-celebration">
+                <p>🎉 Finde das "Easter Egg" powered by vibe coding 🎉</p>
+            </div>
             <h2>TCP 3-Way Handshake</h2>
             <div className="handshake-container">
                 {/* Client Seite - statisch positioniert */}
@@ -42,7 +45,7 @@ const TcpHandshakeAnimation = () => {
                             SYN
                         </div>
                     )}
-                    {step >= 1 && (
+                    {step >= 1 && step <= 2 && ( // SYN-ACK wird nur während Schritt 1-2 angezeigt
                         <div className={`message syn-ack ${step === 1 ? 'sending-left' : (step > 1 ? 'received-left' : '')}`}>
                             SYN-ACK
                         </div>
@@ -80,6 +83,15 @@ const TcpHandshakeAnimation = () => {
                         <p className="technical-note">TCP-Verbindung erfolgreich aufgebaut.</p>
                     </div>
                 )}
+            </div>
+            
+            {/* Footer mit Link zu GitHub und HAW Hamburg */}
+            <div className="tcp-handshake-footer">
+                <a href="https://github.com/scimbe/eastern" target="_blank" rel="noopener noreferrer">
+                    GitHub Repository
+                </a>
+                <span className="footer-divider">|</span>
+                <span>CaDS - HAW Hamburg</span>
             </div>
         </div>
     );

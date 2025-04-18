@@ -10,7 +10,7 @@ Dieses Projekt wurde mithilfe des kreativen Konzepts **Vibe Coding** entwickelt 
 ## 🧠 Was ist Vibe Coding?
 
 **Vibe Coding** ist kein klassisches Framework, sondern eine *Herangehensweise* an das Programmieren.  
-Es setzt auf ein bewusst informelles, aber hochfokussiertes Arbeitsumfeld, in dem Codierende sich von der Atmosphäre, dem Teamspirit und kreativen Impulsen leiten lassen – statt starrer Methodik.
+
 
 ### Merkmale von Vibe Coding:
 
